@@ -1,32 +1,35 @@
-# Employee Lookup System
+# Unique Email Registration System
 
-A console-based Employee Management and Lookup application built with Java. The system demonstrates object-oriented programming (OOP) principles and efficient in-memory data management using the Java Collections Framework (`HashMap`).
+A console-based User Registration and Email Uniqueness Verification application built with Java. The system demonstrates core Java Collections Framework concepts (`HashSet`), input validation via regular expressions (Regex), case-insensitive data normalization, and constant-time duplicate detection.
 
 ---
 
 ## 🚀 Features
 
-- **Add Employee**: Register a new employee with a unique ID, Name, Department, and Salary (includes duplicate ID validation).
-- **Search Employee**: Look up employee details instantly using their Employee ID ($O(1)$ average time complexity).
-- **Display All Employees**: View a complete list of all registered employees.
-- **Remove Employee**: Delete an employee record by their ID.
-- **Pre-loaded Sample Data**: Comes seeded with initial sample employee records for quick testing.
+- **Email Format Validation**: Validates email format using regular expressions (`^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$`) to reject invalid addresses.
+- **Duplicate Prevention**: Uses Java's `Set` interface backed by `HashSet` to ensure $O(1)$ average time complexity uniqueness checking.
+- **Case-Insensitive Handling**: Automatically converts inputs to lowercase (e.g., `User@Example.com` and `user@example.com` are treated as the same user).
+- **Whitespace Trimming**: Automatically sanitizes input by removing leading and trailing whitespace.
+- **Live User Counter**: Dynamically reports the total count of registered users after each registration attempt.
+- **Graceful Exit**: Type `exit` anytime to terminate the program cleanly.
 
 ---
 
 ## 🛠️ Technologies Used
 
 - **Language**: Java (JDK 8 or higher)
-- **Data Structure**: `java.util.HashMap` for key-value pair mapping (`Employee ID -> Employee`)
-- **Input Handling**: `java.util.Scanner` for console user interaction
+- **Data Structure**: `java.util.HashSet` / `java.util.Set` for constant-time insertion and uniqueness enforcement
+- **Pattern Matching**: Regular expression validation via `String.matches()`
+- **Input Handling**: `java.util.Scanner` for interactive command-line input
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-├── EmployeeLookup.java   # Contains Employee model and EmployeeLookup main application
+├── Practise.java         # Contains the email validation and registration logic
 ├── README.md             # Project documentation
+└── .gitignore            # Git ignore file for compiled bytecode (.class)
 ```
 
 ---
@@ -35,7 +38,7 @@ A console-based Employee Management and Lookup application built with Java. The 
 
 ### Prerequisites
 
-Make sure you have the Java Development Kit (JDK) installed on your system. You can verify your installation by running:
+Ensure you have the Java Development Kit (JDK) installed on your system. You can verify your installation by running:
 
 ```bash
 java -version
@@ -47,50 +50,47 @@ javac -version
 Compile the Java source file:
 
 ```bash
-javac EmployeeLookup.java
+javac Practise.java
 ```
 
-This will generate `EmployeeLookup.class` and `Employee.class`.
+This will generate `Practise.class`.
 
 ### Execution
 
 Run the compiled application:
 
 ```bash
-java EmployeeLookup
+java Practise
 ```
 
 ---
 
-## 💻 Menu Options & Usage
-
-Upon launch, the application displays an interactive command-line menu:
+## 💻 Sample Execution
 
 ```text
---- Employee Lookup System ---
-1. Add Employee
-2. Search Employee
-3. Display All Employees
-4. Remove Employee
-5. Exit
-Enter choice:
+Enter email (or exit): alice@example.com
+Registration successful!
+Total registered users: 1
+
+Enter email (or exit): bob@domain.org
+Registration successful!
+Total registered users: 2
+
+Enter email (or exit): Alice@example.com
+Email already registered!
+Total registered users: 2
+
+Enter email (or exit): invalid-email-format
+Invalid email address!
+
+Enter email (or exit): exit
 ```
-
-### Pre-loaded Records
-
-| ID | Name | Department | Salary |
-| :--- | :--- | :--- | :--- |
-| `1001` | Siva | IT | ₹45,000 |
-| `1002` | Rahul | HR | ₹40,000 |
-| `1003` | Priya | Finance | ₹50,000 |
 
 ---
 
 ## 🧩 Code Overview
 
-- **`Employee` Class**:
-  - Encapsulates employee attributes (`id`, `name`, `department`, `salary`).
-  - Includes getter methods and an overridden `toString()` method for clean formatting.
-- **`EmployeeLookup` Class**:
-  - Houses the `main` method and menu loop.
-  - Manages employee records using a `Map<Integer, Employee>` backed by `HashMap`.
+- **`Set<String> emails = new HashSet<>()`**: Stores registered email addresses with guaranteed uniqueness.
+- **`emails.add(email)`**: The `Set.add()` method returns `true` if the item was added, or `false` if it was already present.
+- **`email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")`**: Validates the presence of standard username, `@` symbol, domain name, and dot extension without illegal whitespace characters.
+- **Data Normalization**: `.trim().toLowerCase()` guarantees consistent formatting before duplicate evaluation.
